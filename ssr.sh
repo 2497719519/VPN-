@@ -142,18 +142,18 @@ urlsafe_base64(){
 	echo -e "${date}"
 }
 ss_link_qr(){
-	SStext=$(urlsafe_base64 "${method}:${password}@${ip}:${port}")
+	SSbase64=$(urlsafe_base64 "${method}:${password}@${ip}:${port}")
 	SSurl="ss://${SSbase64}"
-	SSQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=base64=${SSurl}"
+	SSQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=${SSurl}"
 	ss_link=" SS    链接 : ${Green_font_prefix}${SSurl}${Font_color_suffix} \n SS  二维码 : ${Green_font_prefix}${SSQRcode}${Font_color_suffix}"
 }
 ssr_link_qr(){
 	SSRprotocol=$(echo ${protocol} | sed 's/_compatible//g')
 	SSRobfs=$(echo ${obfs} | sed 's/_compatible//g')
-	SSRPWDtext=$(urlsafe_base64 "${password}")
-	SSRbase64=$(urlsafe_text "${ip}:${port}:${SSRprotocol}:${method}:${SSRobfs}:${SSRPWDtext}")
+	SSRPWDbase64=$(urlsafe_base64 "${password}")
+	SSRbase64=$(urlsafe_base64 "${ip}:${port}:${SSRprotocol}:${method}:${SSRobfs}:${SSRPWDbase64}")
 	SSRurl="ssr://${SSRbase64}"
-	SSRQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=base64=${SSRurl}"
+	SSRQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=${SSRurl}"
 	ssr_link=" SSR   链接 : ${Red_font_prefix}${SSRurl}${Font_color_suffix} \n SSR 二维码 : ${Red_font_prefix}${SSRQRcode}${Font_color_suffix} \n "
 }
 ss_ssr_determine(){
@@ -212,7 +212,7 @@ View_User(){
 		echo -e " ${Green_font_prefix} 提示: ${Font_color_suffix}
 在浏览器中，打开二维码链接，就可以看到二维码图片。
 协议和混淆后面的[ _compatible ]，指的是 兼容原版协议/混淆。
-接下来客户端下载和配置请参考：https://xhn2.top/250.html"
+接下来客户端下载和配置请参考：http://xhn2.top/250.html"
 		echo && echo "==================================================="
 	else
 		user_total=`${jq_file} '.port_password' ${config_user_file} | sed '$d' | sed "1d" | wc -l`
@@ -271,8 +271,8 @@ Set_config_port(){
 }
 Set_config_password(){
 	echo "请输入要设置的ShadowsocksR账号 密码"
-	read -e -p "(默认: 123):" ssr_password
-	[[ -z "${ssr_password}" ]] && ssr_password="123"
+	read -e -p "(默认: viencoding.com):" ssr_password
+	[[ -z "${ssr_password}" ]] && ssr_password="viencoding.com"
 	echo && echo ${Separator_1} && echo -e "	密码 : ${Green_font_prefix}${ssr_password}${Font_color_suffix}" && echo ${Separator_1} && echo
 }
 Set_config_method(){
