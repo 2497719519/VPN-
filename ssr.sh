@@ -142,18 +142,18 @@ urlsafe_base64(){
 	echo -e "${date}"
 }
 ss_link_qr(){
-	SStext=$(urlsafe_text "${method}:${password}@${ip}:${port}")
-	SSurl="ss://${SStext}"
-	SSQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=${SSurl}"
+	SStext=$(urlsafe_base64 "${method}:${password}@${ip}:${port}")
+	SSurl="ss://${SSbase64}"
+	SSQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=base64=${SSurl}"
 	ss_link=" SS    链接 : ${Green_font_prefix}${SSurl}${Font_color_suffix} \n SS  二维码 : ${Green_font_prefix}${SSQRcode}${Font_color_suffix}"
 }
 ssr_link_qr(){
 	SSRprotocol=$(echo ${protocol} | sed 's/_compatible//g')
 	SSRobfs=$(echo ${obfs} | sed 's/_compatible//g')
-	SSRPWDtext=$(urlsafe_text "${password}")
-	SSRtext=$(urlsafe_text "${ip}:${port}:${SSRprotocol}:${method}:${SSRobfs}:${SSRPWDtext}")
-	SSRurl="ssr://${SSRtext}"
-	SSRQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=${SSRurl}"
+	SSRPWDtext=$(urlsafe_base64 "${password}")
+	SSRbase64=$(urlsafe_text "${ip}:${port}:${SSRprotocol}:${method}:${SSRobfs}:${SSRPWDtext}")
+	SSRurl="ssr://${SSRbase64}"
+	SSRQRcode="http://xhn2.top/111/222/zxewm/3/qr.php?text=base64=${SSRurl}"
 	ssr_link=" SSR   链接 : ${Red_font_prefix}${SSRurl}${Font_color_suffix} \n SSR 二维码 : ${Red_font_prefix}${SSRQRcode}${Font_color_suffix} \n "
 }
 ss_ssr_determine(){
@@ -254,8 +254,8 @@ Set_config_port(){
 	while true
 	do
 	echo -e "请输入要设置的ShadowsocksR账号 端口"
-	read -e -p "(默认: 123):" ssr_port
-	[[ -z "$ssr_port" ]] && ssr_port="123"
+	read -e -p "(默认: 2333):" ssr_port
+	[[ -z "$ssr_port" ]] && ssr_port="2333"
 	echo $((${ssr_port}+0)) &>/dev/null
 	if [[ $? == 0 ]]; then
 		if [[ ${ssr_port} -ge 1 ]] && [[ ${ssr_port} -le 65535 ]]; then
